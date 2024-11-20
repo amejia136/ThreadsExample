@@ -74,6 +74,9 @@ class TimerViewModel : ViewModel() {
     }
 
     fun resetTimer() {
-        isRunning = false
+        remainingMillis = selectedHour * 3600_000L +
+                selectedMinute * 60_000L +
+                selectedSecond * 1_000L
+
     }
 }

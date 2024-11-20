@@ -54,6 +54,7 @@ fun TimerScreen(
             contentAlignment = Alignment.Center
         ) {
             if (timerViewModel.isRunning) {
+                CircularProgressIndicator(progress = timerViewModel.remainingMillis / totalMillis.toFloat())
             }
             Text(
                 text = timerText(timerViewModel.remainingMillis),
@@ -68,7 +69,6 @@ fun TimerScreen(
             onTimePick = timerViewModel::selectTime
         )
         if (timerViewModel.isRunning) {
-            CircularProgressIndicator(progress = timerViewModel.remainingMillis / totalMillis.toFloat())
             Button(
                 onClick = timerViewModel::cancelTimer,
                 modifier = modifier.padding(50.dp)
@@ -93,6 +93,9 @@ fun TimerScreen(
         ) {
             Text("Reset")
         }
+    }
+    if (timerViewModel.remainingMillis == 0L) {
+        
     }
 }
 
