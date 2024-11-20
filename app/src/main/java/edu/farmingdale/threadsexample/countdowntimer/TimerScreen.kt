@@ -40,6 +40,12 @@ fun TimerScreen(
     modifier: Modifier = Modifier,
     timerViewModel: TimerViewModel = viewModel()
 ) {
+    val totalMillis = remember {
+        timerViewModel.selectedHour * 3600_000L +
+                timerViewModel.selectedMinute * 60_000L +
+                timerViewModel.selectedSecond * 1_000L
+    }
+
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Box(
             modifier = modifier
@@ -48,13 +54,13 @@ fun TimerScreen(
             contentAlignment = Alignment.Center
         ) {
             if (timerViewModel.isRunning) {
-
             }
             Text(
                 text = timerText(timerViewModel.remainingMillis),
-                fontSize = 100.sp,
+                fontSize = 60.sp,
             )
         }
+
         TimePicker(
             hour = timerViewModel.selectedHour,
             min = timerViewModel.selectedMinute,
@@ -62,6 +68,7 @@ fun TimerScreen(
             onTimePick = timerViewModel::selectTime
         )
         if (timerViewModel.isRunning) {
+            CircularProgressIndicator(progress = timerViewModel.remainingMillis / totalMillis.toFloat())
             Button(
                 onClick = timerViewModel::cancelTimer,
                 modifier = modifier.padding(50.dp)
@@ -78,6 +85,13 @@ fun TimerScreen(
             ) {
                 Text("Start")
             }
+
+        }
+        Button(
+            onClick = timerViewModel::resetTimer,
+            modifier = Modifier.padding(8.dp)
+        ) {
+            Text("Reset")
         }
     }
 }
